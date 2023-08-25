@@ -19,9 +19,8 @@ isinetaddr(const char *str)
 {
   char buf[4];
   int i = 0, j = 0, k = 0;
-  size_t len;
+  size_t len = (str == NULL ? 0 : strnlen(str, 16));
 
-  len = str == NULL ? 0 : strnlen(str, 16);
   for(size_t l = 0; l < len; l++) {
     if (str[l] == '.') {
       if (inrange(buf)) {
