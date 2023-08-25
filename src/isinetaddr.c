@@ -32,9 +32,13 @@ isinetaddr(const char *str)
         return 0;
       }
     } else if (isdigit(str[l])) {
-      buf[k++] = str[l];
-      buf[k] = '\0';
-      i++;
+      if (k == 3) {
+        return 0;
+      } else {
+        buf[k++] = str[l];
+        buf[k] = '\0';
+        i++;
+      }
     } else {
       return 0;
     }
