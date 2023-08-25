@@ -4,8 +4,8 @@
 #include <isinetaddr.h>
 #include <errno.h>
 
-static
-int inrange(char buf[4])
+static int
+inrange(char buf[4])
 {
   char *err;
   long r;
@@ -20,7 +20,6 @@ isinetaddr(const char *str)
   char buf[4];
   int i = 0, j = 0, k = 0;
   size_t len = (str == NULL ? 0 : strnlen(str, 16));
-
   for (size_t l = 0; l < len; l++) {
     if (str[l] == '.') {
       if (inrange(buf)) {
@@ -43,6 +42,6 @@ isinetaddr(const char *str)
       return 0;
     }
   }
-  return j == 3 && i <= 12 ? 1 : 0;
+  return j == 3 && i <= 12 && inrange(buf);
 }
 
