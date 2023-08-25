@@ -1,9 +1,9 @@
 ## About
 
 isinetaddr is a simple C library that provides an interface that can
-be used to validate one or more IPv4 addresses. Easy to extend
-[testcases](test/isinetaddr_test.c) exist to verify safety and
-correctness.
+be used to validate one or more IPv4 addresses. The library is guided
+by easy to extend [testcases](test/isinetaddr_test.c) that help verify
+safety and correctness.
 
 ## Examples
 
