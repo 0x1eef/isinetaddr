@@ -14,7 +14,7 @@ main(void)
     const int i = sizeof(strings) / sizeof(strings[0]);
     for (int j = 0; j < i; j++) {
         str = strings[j];
-        if(isinetaddr(str)) {
+        if (isinetaddr(str)) {
             printf("%s is a valid IPv4 address\n", str);
         } else {
             printf("%s is an invalid IPv4 address\n", str);
