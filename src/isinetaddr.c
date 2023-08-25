@@ -21,7 +21,7 @@ isinetaddr(const char *str)
   int i = 0, j = 0, k = 0;
   size_t len = (str == NULL ? 0 : strnlen(str, 16));
 
-  for(size_t l = 0; l < len; l++) {
+  for (size_t l = 0; l < len; l++) {
     if (str[l] == '.') {
       if (inrange(buf)) {
         k = 0;

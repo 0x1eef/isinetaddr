@@ -27,7 +27,7 @@ main(void) {
   size_t len;
   /* IPv4: valid */
   len = sizeof(valid) / sizeof(valid[0]);
-  for(size_t i = 0; i < len; i++) {
+  for (size_t i = 0; i < len; i++) {
     if (isinetaddr(valid[i]) != 1) {
       fprintf(stderr, "assertion failed: '%s' should be valid\n", valid[i]);
       abort();
@@ -35,7 +35,7 @@ main(void) {
   }
   /* IPv4: invalid */
   len = sizeof(invalid) / sizeof(invalid[0]);
-  for(size_t i = 0; i < len; i++) {
+  for (size_t i = 0; i < len; i++) {
     if (isinetaddr(invalid[i]) != 0) {
       fprintf(stderr, "assertion failed: '%s' should NOT be valid\n", invalid[i]);
       abort();
