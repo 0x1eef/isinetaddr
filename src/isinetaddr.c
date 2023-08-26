@@ -25,7 +25,7 @@ isinetaddr(const char *str)
     if (str[l] == '.') {
       if (!inrange(buf)) {
         return 0;
-      } else if(j > 1 && i == 0) {
+      } else if(j == 1 && i == 0) {
         return 0;
       } else {
         k = 0;
