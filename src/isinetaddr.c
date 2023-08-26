@@ -17,7 +17,7 @@ isinetaddr(const char *str)
 
   for (size_t l = 0; l < len; l++) {
     if (str[l] == '.') {
-      if (octets == 2 && digits == 0) {
+      if (buflen == 0) {
         return 0;
       } else if (!in_range(buf, buflen)) {
         return 0;
