@@ -23,13 +23,15 @@ isinetaddr(const char *str)
 
   for (size_t l = 0; l < len; l++) {
     if (str[l] == '.') {
-      if (inrange(buf)) {
+      if (!inrange(buf)) {
+        return 0;
+      } else if(j > 1 && i == 0) {
+        return 0;
+      } else {
         k = 0;
         j++;
         bzero(buf, 3);
         buf[3] = '\0';
-      } else {
-        return 0;
       }
     } else if (isdigit(str[l])) {
       if (k == 3) {
@@ -48,6 +50,6 @@ isinetaddr(const char *str)
       return 0;
     }
   }
-  return j == 3 && i <= 12;
+  return j == 3 && k > 0 && i <= 12;
 }
 
