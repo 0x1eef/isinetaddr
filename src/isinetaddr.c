@@ -4,7 +4,7 @@
 #include <isinetaddr.h>
 #include <errno.h>
 
-static int in_range(char buf[4], int buflen);
+static int in_range(char buf[4], int min, int max);
 static void register_octet(int *octets, char *buf, int *buflen);
 static void register_digit(char digit, int *digits, char *buf, int *buflen);
 
@@ -19,7 +19,7 @@ isinetaddr(const char *str)
     if (str[l] == '.') {
       if (buflen == 0) {
         return 0;
-      } else if (!in_range(buf, buflen)) {
+      } else if (!in_range(buf, 0, 255)) {
         return 0;
       } else {
         register_octet(&octets, buf, &buflen);
@@ -35,24 +35,43 @@ isinetaddr(const char *str)
     }
   }
   if (octets == 4) {
-    return digits <= 12 && in_range(buf, buflen) && buflen > 0;
+    return buflen > 0 && digits <= 12 && in_range(buf, 0, 255);
   } else {
     return 0;
   }
 }
 
+int
+iscidraddr(const char *str)
+{
+  size_t offset = 0;
+  size_t len = (str == NULL ? 0 : strnlen(str, 20));
+
+  for(size_t i = 0; i < len; i++) {
+    if(str[i] == '/') {
+      offset = i;
+    }
+  }
+  if (offset == 0) {
+    return isinetaddr(str);
+  } else {
+    char addr[offset], cidr[3];
+    char *c = (char*)&str[offset + 1];
+    memcpy(addr, str, offset);
+    memcpy(cidr, c, 2);
+    addr[offset] = '\0';
+    return isinetaddr(addr) && in_range(cidr, 0, 32);
+  }
+}
+
 static int
-in_range(char buf[4], int buflen)
+in_range(char buf[4], int min, int max)
 {
   char *err;
   long r;
-  if (buflen < 3) {
-    return 1;
-  } else {
-    errno = 0;
-    r = strtol(buf, &err, 10);
-    return *err == '\0' && errno == 0 && (r >= 0 && r <= 255);
-  }
+  errno = 0;
+  r = strtol(buf, &err, 10);
+  return *err == '\0' && errno == 0 && (r >= min && r <= max);
 }
 
 static void
