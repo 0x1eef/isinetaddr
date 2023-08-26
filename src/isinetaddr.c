@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <isinetaddr.h>
 #include <errno.h>
+
 static int in_range(char buf[4], int buflen);
 static void register_octet(int *octets, char *buf, int *buflen);
 static void register_digit(char digit, int *digits, char *buf, int *buflen);
