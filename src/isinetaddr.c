@@ -3,7 +3,9 @@
 #include <stdlib.h>
 #include <isinetaddr.h>
 #include <errno.h>
-static int inrange(char buf[4], int buflen);
+static int in_range(char buf[4], int buflen);
+static void register_octet(int *octets, char *buf, int *buflen);
+static void register_digit(char digit, int *digits, char *buf, int *buflen);
 
 int
 isinetaddr(const char *str)
@@ -16,28 +18,23 @@ isinetaddr(const char *str)
     if (str[l] == '.') {
       if (octets == 1 && digits == 0) {
         return 0;
-      } else if (!inrange(buf, buflen)) {
+      } else if (!in_range(buf, buflen)) {
         return 0;
       } else {
-        buflen = 0;
-        octets++;
-        bzero(buf, 3);
-        buf[3] = '\0';
+        register_octet(&octets, buf, &buflen);
       }
     } else if (isdigit(str[l])) {
       if (buflen == 3) {
         return 0;
       } else {
-        buf[buflen++] = str[l];
-        buf[buflen] = '\0';
-        digits++;
+        register_digit(str[l], &digits, buf, &buflen);
       }
     } else {
       return 0;
     }
   }
   if (octets == 3) {
-    if (!inrange(buf, buflen)) {
+    if (!in_range(buf, buflen)) {
       return 0;
     }
   }
@@ -45,7 +42,7 @@ isinetaddr(const char *str)
 }
 
 static int
-inrange(char buf[4], int buflen)
+in_range(char buf[4], int buflen)
 {
   char *err;
   long r;
@@ -56,4 +53,21 @@ inrange(char buf[4], int buflen)
     r = strtol(buf, &err, 10);
     return *err == '\0' && errno == 0 && (r >= 0 && r <= 255);
   }
+}
+
+static void
+register_octet(int *octets, char *buf, int *buflen)
+{
+  *buflen = 0;
+  (*octets)++;
+  bzero(buf, 3);
+  buf[3] = '\0';
+}
+
+static void
+register_digit(char digit, int *digits, char *buf, int *buflen)
+{
+  buf[(*buflen)++] = digit;
+  buf[*buflen] = '\0';
+  (*digits)++;
 }
