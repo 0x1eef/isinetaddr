@@ -2,8 +2,7 @@
 
 isinetaddr is a simple C library that provides an interface that can
 be used to validate one or more IPv4 addresses. The library is guided
-by easy to extend [testcases](test/isinetaddr_test.c) that help verify
-safety and correctness.
+by easy to extend [testcases](test/) that help verify safety and correctness.
 
 ## Examples
 
@@ -19,8 +18,14 @@ when the input given is valid, and otherwise returns 0.
 #include <stdlib.h>
 
 const char *strings[] = {
-  "127.0.0.1", "1.1.1.1", "0.0.0.0",
-  "foobar", "0.0.0.0.0"
+  /* valid */
+  "127.0.0.1",
+  "1.1.1.1",
+  "0.0.0.0",
+
+  /* invalid */
+  "foobar",
+  "0.0.0.0.0"
 };
 
 int
@@ -44,7 +49,7 @@ When the above source code is compiled and run the output is
 expected to be as follows:
 
 ```
-$ cc -Iinclude src/isinetaddr.c share/isinetaddr/examples/IPv4.c -o example
+$ cc -Iinclude src/isinetaddr.c share/isinetaddr/examples/isinetaddr.c -o  example
 $ ./example
 127.0.0.1 is a valid IPv4 address
 1.1.1.1 is a valid IPv4 address
