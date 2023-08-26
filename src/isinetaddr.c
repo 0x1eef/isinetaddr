@@ -3,16 +3,7 @@
 #include <stdlib.h>
 #include <isinetaddr.h>
 #include <errno.h>
-
-static int
-inrange(char buf[4])
-{
-  char *err;
-  long r;
-  errno = 0;
-  r = strtol(buf, &err, 10);
-  return *err == '\0' && errno == 0 && (r >= 0 && r <= 255);
-}
+static int inrange(char buf[4]);
 
 int
 isinetaddr(const char *str)
@@ -51,4 +42,14 @@ isinetaddr(const char *str)
     }
   }
   return j == 3 && k > 0 && i <= 12;
+}
+
+static int
+inrange(char buf[4])
+{
+  char *err;
+  long r;
+  errno = 0;
+  r = strtol(buf, &err, 10);
+  return *err == '\0' && errno == 0 && (r >= 0 && r <= 255);
 }
