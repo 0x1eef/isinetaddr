@@ -11,12 +11,12 @@ int
 isinetaddr(const char *str)
 {
   char buf[4];
-  int digits = 0, octets = 0, buflen = 0;
+  int digits = 0, octets = 1, buflen = 0;
   size_t len = (str == NULL ? 0 : strnlen(str, 16));
 
   for (size_t l = 0; l < len; l++) {
     if (str[l] == '.') {
-      if (octets == 1 && digits == 0) {
+      if (octets == 2 && digits == 0) {
         return 0;
       } else if (!in_range(buf, buflen)) {
         return 0;
@@ -33,12 +33,11 @@ isinetaddr(const char *str)
       return 0;
     }
   }
-  if (octets == 3) {
-    if (!in_range(buf, buflen)) {
-      return 0;
-    }
+  if (octets == 4) {
+    return digits <= 12 && in_range(buf, buflen) && buflen > 0;
+  } else {
+    return 0;
   }
-  return octets == 3 && digits <= 12 && buflen > 0;
 }
 
 static int
