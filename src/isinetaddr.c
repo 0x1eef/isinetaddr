@@ -3,53 +3,57 @@
 #include <stdlib.h>
 #include <isinetaddr.h>
 #include <errno.h>
-static int inrange(char buf[4]);
+static int inrange(char buf[4], int buflen);
 
 int
 isinetaddr(const char *str)
 {
   char buf[4];
-  int i = 0, j = 0, k = 0;
+  int digits = 0, octets = 0, buflen = 0;
   size_t len = (str == NULL ? 0 : strnlen(str, 16));
 
   for (size_t l = 0; l < len; l++) {
     if (str[l] == '.') {
-      if (j == 1 && i == 0) {
+      if (octets == 1 && digits == 0) {
         return 0;
-      } else if (k == 3 && !inrange(buf)) {
+      } else if (!inrange(buf, buflen)) {
         return 0;
       } else {
-        k = 0;
-        j++;
+        buflen = 0;
+        octets++;
         bzero(buf, 3);
         buf[3] = '\0';
       }
     } else if (isdigit(str[l])) {
-      if (k == 3) {
+      if (buflen == 3) {
         return 0;
       } else {
-        buf[k++] = str[l];
-        buf[k] = '\0';
-        i++;
+        buf[buflen++] = str[l];
+        buf[buflen] = '\0';
+        digits++;
       }
     } else {
       return 0;
     }
   }
-  if (j == 3 && k == 3) {
-    if (!inrange(buf)) {
+  if (octets == 3) {
+    if (!inrange(buf, buflen)) {
       return 0;
     }
   }
-  return j == 3 && k > 0 && i <= 12;
+  return octets == 3 && digits <= 12 && buflen > 0;
 }
 
 static int
-inrange(char buf[4])
+inrange(char buf[4], int buflen)
 {
   char *err;
   long r;
-  errno = 0;
-  r = strtol(buf, &err, 10);
-  return *err == '\0' && errno == 0 && (r >= 0 && r <= 255);
+  if (buflen < 3) {
+    return 1;
+  } else {
+    errno = 0;
+    r = strtol(buf, &err, 10);
+    return *err == '\0' && errno == 0 && (r >= 0 && r <= 255);
+  }
 }
