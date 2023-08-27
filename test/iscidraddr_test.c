@@ -8,7 +8,8 @@ const char *valid[] = {
   "0.0.0.0",
   "255.255.255.255",
   "123.45.67.89",
-  "123.45.67.255"
+  "123.45.67.255",
+  "10.0.0.1/32"
 };
 
 const char *invalid[] = {
@@ -26,6 +27,13 @@ const char *invalid[] = {
   "192.2.2.",
   "...4",
   "4...4",
+  "10.0.0.1/33",
+  "127.0.0.1/64",
+  "127.0.0.1/",
+  "127.0.0.1/a",
+  "/",
+  "/123.",
+  "127/2",
   NULL
 };
 
@@ -35,7 +43,7 @@ main(void) {
   /* IPv4: valid */
   len = sizeof(valid) / sizeof(valid[0]);
   for (size_t i = 0; i < len; i++) {
-    if (isinetaddr(valid[i]) != 1) {
+    if (iscidraddr(valid[i]) != 1) {
       fprintf(stderr, "assertion failed: '%s' should be valid\n", valid[i]);
       abort();
     }
@@ -43,7 +51,7 @@ main(void) {
   /* IPv4: invalid */
   len = sizeof(invalid) / sizeof(invalid[0]);
   for (size_t i = 0; i < len; i++) {
-    if (isinetaddr(invalid[i]) != 0) {
+    if (iscidraddr(invalid[i]) != 0) {
       fprintf(stderr, "assertion failed: '%s' should NOT be valid\n", invalid[i]);
       abort();
     }
