@@ -2,7 +2,6 @@ SRCDIR   = src
 SRCFILES = $(SRCDIR)/isinetaddr.c $(SRCDIR)/iscidraddr.c
 INCDIR   = include
 TESTDIR  = test
-TESTBIN  = $(TESTDIR)/runner
 
 CC = cc
 CFLAGS = -fstack-protector-all -I$(INCDIR) -Wall -Wextra -pedantic
