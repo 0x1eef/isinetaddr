@@ -50,7 +50,7 @@ When the above source code is compiled and run the output is
 expected to be as follows:
 
 ```
-$ cc -Iinclude src/isinetaddr.c share/isinetaddr/examples/isinetaddr.c -o  example
+$ cc -Iinclude src/*.c share/isinetaddr/examples/isinetaddr.c -o example
 $ ./example
 127.0.0.1 is a valid IPv4 address
 1.1.1.1 is a valid IPv4 address
@@ -108,7 +108,7 @@ When the above source code is compiled and run the output is
 expected to be as follows:
 
 ```
-$ cc -Iinclude src/isinetaddr.c share/isinetaddr/examples/iscidraddr.c -o example
+$ cc -Iinclude src/*.c share/isinetaddr/examples/iscidraddr.c -o example
 $ ./example
 127.0.0.1 is a valid IPv4 address
 1.1.1.1 is a valid IPv4 address
