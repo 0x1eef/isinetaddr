@@ -12,7 +12,7 @@ iscidraddr(const char *str)
   size_t len = (str == NULL ? 0 : strnlen(str, 16));
 
   for(size_t i = 0; i < len; i++) {
-    if(str[i] == '/') {
+    if (str[i] == '/') {
       offset = i;
       break;
     }
