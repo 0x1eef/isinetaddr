@@ -23,7 +23,7 @@ iscidraddr(const char *str)
     char addr[offset], cidr[3];
     char *c = (char*)&str[offset + 1];
     memcpy(addr, str, offset);
-    memcpy(cidr, c, 2);
+    memcpy(cidr, c, 3);
     addr[offset] = '\0';
     return isinetaddr(addr) && in_range(cidr, 0, 32);
   }
