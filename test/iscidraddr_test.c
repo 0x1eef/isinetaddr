@@ -11,6 +11,7 @@ const char *valid[] = {
   /* valid cidr notation */
   "10.0.0.1/8", "10.0.0.1/16",
   "10.0.0.1/24", "10.0.0.1/32",
+  "255.255.255.255/32"
 };
 
 const char *invalid[] = {
