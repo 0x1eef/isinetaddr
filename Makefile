@@ -12,6 +12,6 @@ test:
 	@$(TESTDIR)/isinetaddr
 	@$(CC) $(CFLAGS) $(SRCFILES) $(TESTDIR)/iscidraddr_test.c -o $(TESTDIR)/iscidraddr
 	@echo -n test/iscidraddr: ''
-	@$(TESTDIR)/isinetaddr
+	@$(TESTDIR)/iscidraddr
 
 .PHONY: test
