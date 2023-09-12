@@ -1,9 +1,10 @@
 ## About
 
 isinetaddr is a simple C library that provides an interface that can
-be used to validate one or more IPv4 addresses (with optional support
-for CIDR notation as well). The library is guided by easy to extend
-[testcases](test/) that help verify safety and correctness.
+be used to validate one or more IPv(<b>4</b>|<b>6</b>) addresses
+(with optional support for CIDR notation as well). The library is
+guided by easy to extend [testcases](test/) that help verify safety
+and correctness.
 
 ## Examples
 
@@ -120,6 +121,61 @@ foobar is an invalid IPv4 address
 0.0.0.0.0 is an invalid IPv4 address
 127.0.0.1/33 is an invalid IPv4 address
 127.0.0.1/64 is an invalid IPv4 address
+```
+
+### IPv6
+
+The following example demonstrates the `isinetaddr6` function with
+both valid and invalid inputs. The `isinetaddr6` function returns 1
+when the input given is valid, and otherwise returns 0.
+
+```C
+#include <isinetaddr.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+const char *strings[] = {
+  /* valid */
+  "::",
+  "::1",
+  "0000:0000:0000:0000:0000:0000:0000:0000",
+
+  /* invalid */
+  "foobar",
+  NULL,
+  "00:::0",
+};
+
+int
+main(void)
+{
+    const char *str;
+    const int i = sizeof(strings) / sizeof(strings[0]);
+    for (int j = 0; j < i; j++) {
+        str = strings[j];
+        if (isinetaddr6(str)) {
+            printf("%s is a valid IPv6 address\n", str);
+        } else {
+            printf("%s is an invalid IPv6 address\n", str);
+        }
+    }
+    return EXIT_SUCCESS;
+}
+```
+
+When the above source code is compiled and run the output is
+expected to be as follows:
+
+```
+$ cc -Iinclude src/*.c share/isinetaddr/examples/isinetaddr6.c -o example
+$ ./example
+0x1eef [isinetaddr] % ./example
+:: is a valid IPv6 address
+::1 is a valid IPv6 address
+0000:0000:0000:0000:0000:0000:0000:0000 is a valid IPv6 address
+foobar is an invalid IPv6 address
+(null) is an invalid IPv6 address
+00:::0 is an invalid IPv6 address
 ```
 
 ## Sources
