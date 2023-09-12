@@ -21,7 +21,7 @@ isinetaddr6(const char *str)
   if (len == 0) {
     return 0;
   } else if (strncasecmp(str, "::ffff", 6) == 0) {
-    return isinetaddr(&str[7]);
+    return isinetaddr4(&str[7]);
   }
   for (size_t i = 0; i < len; i++) {
     if (has_consecutive_chars(&str[i], SEP, 3)) {

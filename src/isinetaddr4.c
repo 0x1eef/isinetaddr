@@ -9,7 +9,7 @@ static void register_octet(int *octets, char *buf, int *buflen);
 static void register_digit(char digit, int *digits, char *buf, int *buflen);
 
 int
-isinetaddr(const char *str)
+isinetaddr4(const char *str)
 {
   char buf[4];
   int digits = 0, octets = 1, buflen = 0;

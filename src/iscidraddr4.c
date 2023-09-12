@@ -6,7 +6,7 @@
 static int in_range(char buf[4], int min, int max);
 
 int
-iscidraddr(const char *str)
+iscidraddr4(const char *str)
 {
   size_t offset = 0;
   size_t len = (str == NULL ? 0 : strnlen(str, 16));
@@ -18,14 +18,14 @@ iscidraddr(const char *str)
     }
   }
   if (offset == 0) {
-    return isinetaddr(str);
+    return isinetaddr4(str);
   } else {
     char addr[offset], cidr[3];
     char *c = (char*)&str[offset + 1];
     memcpy(addr, str, offset);
     memcpy(cidr, c, 3);
     addr[offset] = '\0';
-    return isinetaddr(addr) && in_range(cidr, 0, 32);
+    return isinetaddr4(addr) && in_range(cidr, 0, 32);
   }
 }
 

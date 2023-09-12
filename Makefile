@@ -1,5 +1,5 @@
 SRCDIR   = src
-SRCFILES = $(SRCDIR)/isinetaddr.c $(SRCDIR)/iscidraddr.c $(SRCDIR)/isinetaddr6.c
+SRCFILES = $(SRCDIR)/isinetaddr4.c $(SRCDIR)/iscidraddr4.c $(SRCDIR)/isinetaddr6.c
 INCDIR   = include
 TESTDIR  = test
 
@@ -11,10 +11,10 @@ test:
 	@make test6
 
 test4:
-	@$(CC) $(CFLAGS) $(SRCFILES) $(TESTDIR)/isinetaddr_test.c -o $(TESTDIR)/isinetaddr
+	@$(CC) $(CFLAGS) $(SRCFILES) $(TESTDIR)/isinetaddr4_test.c -o $(TESTDIR)/isinetaddr
 	@echo -n test/isinetaddr: ''
 	@$(TESTDIR)/isinetaddr
-	@$(CC) $(CFLAGS) $(SRCFILES) $(TESTDIR)/iscidraddr_test.c -o $(TESTDIR)/iscidraddr
+	@$(CC) $(CFLAGS) $(SRCFILES) $(TESTDIR)/iscidraddr4_test.c -o $(TESTDIR)/iscidraddr
 	@echo -n test/iscidraddr: ''
 	@$(TESTDIR)/iscidraddr
 

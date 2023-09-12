@@ -1,18 +1,17 @@
 ## About
 
 isinetaddr is a simple C library that provides an interface that can
-be used to validate one or more IPv(<b>4</b>|<b>6</b>) addresses
-(with optional support for CIDR notation as well). The library is
-guided by easy to extend [testcases](test/) that help verify safety
-and correctness.
+be used to validate an IPv(<b>4</b>|<b>6</b>) address (with optional
+support for CIDR notation as well). The library is guided by easy to
+extend [testcases](test/) that help verify safety and correctness.
 
 ## Examples
 
 ### IPv4
 
-The following example demonstrates the `isinetaddr` function with
-both valid and invalid inputs. The `isinetaddr` function returns 1
-when the input given is valid, and otherwise returns 0.
+The following example demonstrates the `isinetaddr4` function with
+both valid and invalid inputs. The `isinetaddr4` function returns 1
+when the input given is a valid IPv4 address, and otherwise returns 0.
 
 ```C
 #include <isinetaddr.h>
@@ -37,7 +36,7 @@ main(void)
     const int i = sizeof(strings) / sizeof(strings[0]);
     for (int j = 0; j < i; j++) {
         str = strings[j];
-        if (isinetaddr(str)) {
+        if (isinetaddr4(str)) {
             printf("%s is a valid IPv4 address\n", str);
         } else {
             printf("%s is an invalid IPv4 address\n", str);
@@ -51,7 +50,7 @@ When the above source code is compiled and run the output is
 expected to be as follows:
 
 ```
-$ cc -Iinclude src/*.c share/isinetaddr/examples/isinetaddr.c -o example
+$ cc -Iinclude src/*.c share/isinetaddr/examples/isinetaddr4.c -o example
 $ ./example
 127.0.0.1 is a valid IPv4 address
 1.1.1.1 is a valid IPv4 address
@@ -62,7 +61,7 @@ foobar is an invalid IPv4 address
 
 ### CIDR notation (IPv4)
 
-The `iscidraddr` function supports the same feature set as `isinetaddr`, and
+The `iscidraddr4` function supports the same feature set as `isinetaddr4`, and
 in addition supports
 [CIDR notation](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing#CIDR_notation).
 The following example builds on the previous example:
@@ -95,7 +94,7 @@ main(void)
     const int i = sizeof(strings) / sizeof(strings[0]);
     for (int j = 0; j < i; j++) {
         str = strings[j];
-        if (iscidraddr(str)) {
+        if (iscidraddr4(str)) {
             printf("%s is a valid IPv4 address\n", str);
         } else {
             printf("%s is an invalid IPv4 address\n", str);
@@ -109,7 +108,7 @@ When the above source code is compiled and run the output is
 expected to be as follows:
 
 ```
-$ cc -Iinclude src/*.c share/isinetaddr/examples/iscidraddr.c -o example
+$ cc -Iinclude src/*.c share/isinetaddr/examples/iscidraddr4.c -o example
 $ ./example
 127.0.0.1 is a valid IPv4 address
 1.1.1.1 is a valid IPv4 address
@@ -127,7 +126,7 @@ foobar is an invalid IPv4 address
 
 The following example demonstrates the `isinetaddr6` function with
 both valid and invalid inputs. The `isinetaddr6` function returns 1
-when the input given is valid, and otherwise returns 0.
+when the input given is a valid IPv6 address, and otherwise returns 0.
 
 ```C
 #include <isinetaddr.h>

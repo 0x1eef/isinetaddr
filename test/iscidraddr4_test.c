@@ -8,6 +8,10 @@ const char *valid[] = {
   "192.168.1.1", "0.0.0.0",
   "255.255.255.255", "123.45.67.89",
   "123.45.67.255",
+  /* valid cidr notation */
+  "10.0.0.1/8", "10.0.0.1/16",
+  "10.0.0.1/24", "10.0.0.1/32",
+  "255.255.255.255/32"
 };
 
 const char *invalid[] = {
@@ -16,6 +20,11 @@ const char *invalid[] = {
   ".192.168.1.1", "192..168.1.1",
   "192.168.1.1.", "192.168.1.1..",
   "192.168.1.1a", "192.2.2.",
+  /* invalid cidr notation */
+  "10.0.0.1/33", "127.0.0.1/64",
+  "127.0.0.1/", "127.0.0.1/a",
+  "127.0.0.1/322",
+  "/", "/123.","127/2",
   /* edge cases */
   "555555555555555555555555555555555555",
   "", ".", ".......", "...4", "4...4",
@@ -30,7 +39,7 @@ main(void) {
   /* IPv4: valid */
   len = sizeof(valid) / sizeof(valid[0]);
   for (size_t i = 0; i < len; i++) {
-    if (isinetaddr(valid[i]) != 1) {
+    if (iscidraddr4(valid[i]) != 1) {
       fprintf(stderr, "assertion failed: '%s' should be valid\n", valid[i]);
       abort();
     }
@@ -38,7 +47,7 @@ main(void) {
   /* IPv4: invalid */
   len = sizeof(invalid) / sizeof(invalid[0]);
   for (size_t i = 0; i < len; i++) {
-    if (isinetaddr(invalid[i]) != 0) {
+    if (iscidraddr4(invalid[i]) != 0) {
       fprintf(stderr, "assertion failed: '%s' should NOT be valid\n", invalid[i]);
       abort();
     }
