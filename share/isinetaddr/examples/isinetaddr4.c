@@ -4,16 +4,7 @@
 
 const char *valid[] = { "127.0.0.1", "1.1.1.1", "0.0.0.0" };
 const char *invalid[] = { "foobar", "0.0.0.0.0", NULL };
-
-void
-validate(const char *str)
-{
-  if (isinetaddr4(str)) {
-    printf("%s is a valid IPv4 address.\n", str);
-  } else {
-    printf("%s is an invalid IPv4 address.\n", str);
-  }
-}
+void validate(const char *str);
 
 int
 main(void)
@@ -27,4 +18,14 @@ main(void)
     validate(invalid[i]);
   }
   return EXIT_SUCCESS;
+}
+
+void
+validate(const char *str)
+{
+  if (isinetaddr4(str)) {
+    printf("%s is a valid IPv4 address.\n", str);
+  } else {
+    printf("%s is an invalid IPv4 address.\n", str);
+  }
 }

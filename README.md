@@ -20,16 +20,7 @@ when the input given is a valid IPv4 address, and otherwise returns 0.
 
 const char *valid[] = { "127.0.0.1", "1.1.1.1", "0.0.0.0" };
 const char *invalid[] = { "foobar", "0.0.0.0.0", NULL };
-
-void
-validate(const char *str)
-{
-  if (isinetaddr4(str)) {
-    printf("%s is a valid IPv4 address.\n", str);
-  } else {
-    printf("%s is an invalid IPv4 address.\n", str);
-  }
-}
+void validate(const char *str);
 
 int
 main(void)
@@ -43,6 +34,16 @@ main(void)
     validate(invalid[i]);
   }
   return EXIT_SUCCESS;
+}
+
+void
+validate(const char *str)
+{
+  if (isinetaddr4(str)) {
+    printf("%s is a valid IPv4 address.\n", str);
+  } else {
+    printf("%s is an invalid IPv4 address.\n", str);
+  }
 }
 ```
 
@@ -75,16 +76,7 @@ The following example builds on the previous example:
 
 const char *valid[] = { "127.0.0.1", "192.168.2.1/32", "192.168.2.1/0" };
 const char *invalid[] = { "foobar", "0.0.0.0.0", "192.168.2.1/33" };
-
-void
-validate(const char *str)
-{
-  if (iscidraddr4(str)) {
-    printf("%s is a valid IPv4 address.\n", str);
-  } else {
-    printf("%s is an invalid IPv4 address.\n", str);
-  }
-}
+void validate(const char *str);
 
 int
 main(void)
@@ -98,6 +90,16 @@ main(void)
     validate(invalid[i]);
   }
   return EXIT_SUCCESS;
+}
+
+void
+validate(const char *str)
+{
+  if (iscidraddr4(str)) {
+    printf("%s is a valid IPv4 address.\n", str);
+  } else {
+    printf("%s is an invalid IPv4 address.\n", str);
+  }
 }
 ```
 
@@ -129,16 +131,7 @@ when the input given is a valid IPv6 address, and otherwise returns 0.
 
 const char *valid[] = { "::", "::1", "0000:0000:0000:0000:0000:0000:0000:0000" };
 const char *invalid[] = { "foobar", "00:::0", NULL };
-
-void
-validate(const char *str)
-{
-  if (isinetaddr6(str)) {
-    printf("%s is a valid IPv6 address.\n", str);
-  } else {
-    printf("%s is an invalid IPv6 address.\n", str);
-  }
-}
+void validate(const char *str);
 
 int
 main(void)
@@ -152,6 +145,16 @@ main(void)
     validate(invalid[i]);
   }
   return EXIT_SUCCESS;
+}
+
+void
+validate(const char *str)
+{
+  if (isinetaddr6(str)) {
+    printf("%s is a valid IPv6 address.\n", str);
+  } else {
+    printf("%s is an invalid IPv6 address.\n", str);
+  }
 }
 ```
 
