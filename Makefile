@@ -2,6 +2,8 @@ SRCDIR   = src
 SRCFILES = $(SRCDIR)/isinetaddr4.c $(SRCDIR)/iscidraddr4.c $(SRCDIR)/isinetaddr6.c
 INCDIR   = include
 TESTDIR  = test
+EXAMPLEDIR = share/isinetaddr/examples/
+EXAMPLEBIN = example
 
 CC = cc
 CFLAGS = -fstack-protector-all -I$(INCDIR) -Wall -Wextra -pedantic
@@ -23,4 +25,15 @@ test6:
 	@echo -n test/isinetaddr6: ''
 	@$(TESTDIR)/isinetaddr6
 
-.PHONY: test
+example:
+	@for file in isinetaddr4.c iscidraddr4.c isinetaddr6.c ; do \
+		echo Example: $$file; \
+		$(CC) $(CFLAGS) $(SRCFILES) $(EXAMPLEDIR)/$$file -o $(EXAMPLEBIN); \
+		./$(EXAMPLEBIN); \
+		rm $(EXAMPLEBIN); \
+		if [ $$file != isinetaddr6.c ]; then \
+			echo; \
+		fi; \
+	done
+
+.PHONY: test example
