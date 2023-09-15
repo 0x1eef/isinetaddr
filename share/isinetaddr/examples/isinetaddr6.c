@@ -2,30 +2,29 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-const char *strings[] = {
-  /* valid */
-  "::",
-  "::1",
-  "0000:0000:0000:0000:0000:0000:0000:0000",
+const char *valid[] = { "::", "::1", "0000:0000:0000:0000:0000:0000:0000:0000" };
+const char *invalid[] = { "foobar", "00:::0", NULL };
 
-  /* invalid */
-  "foobar",
-  NULL,
-  "00:::0",
-};
+void
+validate(const char *str)
+{
+  if (isinetaddr6(str)) {
+    printf("%s is a valid IPv6 address.\n", str);
+  } else {
+    printf("%s is an invalid IPv6 address.\n", str);
+  }
+}
 
 int
 main(void)
 {
-    const char *str;
-    const int i = sizeof(strings) / sizeof(strings[0]);
-    for (int j = 0; j < i; j++) {
-        str = strings[j];
-        if (isinetaddr6(str)) {
-            printf("%s is a valid IPv6 address\n", str);
-        } else {
-            printf("%s is an invalid IPv6 address\n", str);
-        }
-    }
-    return EXIT_SUCCESS;
+  printf("// valid\n");
+  for (int i = 0; i < 3; i++) {
+    validate(valid[i]);
+  }
+  printf("// invalid\n");
+  for (int i = 0; i < 3; i++) {
+    validate(invalid[i]);
+  }
+  return EXIT_SUCCESS;
 }

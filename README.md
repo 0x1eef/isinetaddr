@@ -2,7 +2,7 @@
 
 isinetaddr is a simple C library that provides an interface that can
 be used to validate an IPv(<b>4</b>|<b>6</b>) address (with optional
-support for CIDR notation as well). The library is guided by easy to
+support for CIDR notation included). The library is guided by easy to
 extend [testcases](test/) that help verify safety and correctness.
 
 ## Examples
@@ -18,45 +18,47 @@ when the input given is a valid IPv4 address, and otherwise returns 0.
 #include <stdio.h>
 #include <stdlib.h>
 
-const char *strings[] = {
-  /* valid */
-  "127.0.0.1",
-  "1.1.1.1",
-  "0.0.0.0",
+const char *valid[] = { "127.0.0.1", "1.1.1.1", "0.0.0.0" };
+const char *invalid[] = { "foobar", "0.0.0.0.0", NULL };
 
-  /* invalid */
-  "foobar",
-  "0.0.0.0.0"
-};
+void
+validate(const char *str)
+{
+  if (isinetaddr4(str)) {
+    printf("%s is a valid IPv4 address.\n", str);
+  } else {
+    printf("%s is an invalid IPv4 address.\n", str);
+  }
+}
 
 int
 main(void)
 {
-    const char *str;
-    const int i = sizeof(strings) / sizeof(strings[0]);
-    for (int j = 0; j < i; j++) {
-        str = strings[j];
-        if (isinetaddr4(str)) {
-            printf("%s is a valid IPv4 address\n", str);
-        } else {
-            printf("%s is an invalid IPv4 address\n", str);
-        }
-    }
-    return EXIT_SUCCESS;
+  printf("// valid\n");
+  for (int i = 0; i < 3; i++) {
+    validate(valid[i]);
+  }
+  printf("// invalid\n");
+  for (int i = 0; i < 3; i++) {
+    validate(invalid[i]);
+  }
+  return EXIT_SUCCESS;
 }
 ```
 
-When the above source code is compiled and run the output is
-expected to be as follows:
+Expected output:
 
 ```
 $ cc -Iinclude src/*.c share/isinetaddr/examples/isinetaddr4.c -o example
 $ ./example
-127.0.0.1 is a valid IPv4 address
-1.1.1.1 is a valid IPv4 address
-0.0.0.0 is a valid IPv4 address
-foobar is an invalid IPv4 address
-0.0.0.0.0 is an invalid IPv4 address
+// valid
+127.0.0.1 is a valid IPv4 address.
+1.1.1.1 is a valid IPv4 address.
+0.0.0.0 is a valid IPv4 address.
+// invalid
+foobar is an invalid IPv4 address.
+0.0.0.0.0 is an invalid IPv4 address.
+(null) is an invalid IPv4 address.
 ```
 
 ### CIDR notation (IPv4)
@@ -71,55 +73,47 @@ The following example builds on the previous example:
 #include <stdio.h>
 #include <stdlib.h>
 
-const char *strings[] = {
-  /* valid */
-  "127.0.0.1",
-  "1.1.1.1",
-  "0.0.0.0",
-  "127.0.0.1/8",
-  "127.0.0.1/16",
-  "127.0.0.1/32",
+const char *valid[] = { "127.0.0.1", "192.168.2.1/32", "192.168.2.1/0" };
+const char *invalid[] = { "foobar", "0.0.0.0.0", "192.168.2.1/33" };
 
-  /* invalid */
-  "foobar",
-  "0.0.0.0.0",
-  "127.0.0.1/33",
-  "127.0.0.1/64"
-};
+void
+validate(const char *str)
+{
+  if (iscidraddr4(str)) {
+    printf("%s is a valid IPv4 address.\n", str);
+  } else {
+    printf("%s is an invalid IPv4 address.\n", str);
+  }
+}
 
 int
 main(void)
 {
-    const char *str;
-    const int i = sizeof(strings) / sizeof(strings[0]);
-    for (int j = 0; j < i; j++) {
-        str = strings[j];
-        if (iscidraddr4(str)) {
-            printf("%s is a valid IPv4 address\n", str);
-        } else {
-            printf("%s is an invalid IPv4 address\n", str);
-        }
-    }
-    return EXIT_SUCCESS;
+  printf("// valid\n");
+  for (int i = 0; i < 3; i++) {
+    validate(valid[i]);
+  }
+  printf("// invalid\n");
+  for (int i = 0; i < 3; i++) {
+    validate(invalid[i]);
+  }
+  return EXIT_SUCCESS;
 }
 ```
 
-When the above source code is compiled and run the output is
-expected to be as follows:
+Expected output:
 
 ```
 $ cc -Iinclude src/*.c share/isinetaddr/examples/iscidraddr4.c -o example
 $ ./example
-127.0.0.1 is a valid IPv4 address
-1.1.1.1 is a valid IPv4 address
-0.0.0.0 is a valid IPv4 address
-127.0.0.1/8 is a valid IPv4 address
-127.0.0.1/16 is a valid IPv4 address
-127.0.0.1/32 is a valid IPv4 address
-foobar is an invalid IPv4 address
-0.0.0.0.0 is an invalid IPv4 address
-127.0.0.1/33 is an invalid IPv4 address
-127.0.0.1/64 is an invalid IPv4 address
+// valid
+127.0.0.1 is a valid IPv4 address.
+192.168.2.1/32 is a valid IPv4 address.
+192.168.2.1/0 is a valid IPv4 address.
+// invalid
+foobar is an invalid IPv4 address.
+0.0.0.0.0 is an invalid IPv4 address.
+192.168.2.1/33 is an invalid IPv4 address.
 ```
 
 ### IPv6
@@ -133,48 +127,47 @@ when the input given is a valid IPv6 address, and otherwise returns 0.
 #include <stdio.h>
 #include <stdlib.h>
 
-const char *strings[] = {
-  /* valid */
-  "::",
-  "::1",
-  "0000:0000:0000:0000:0000:0000:0000:0000",
+const char *valid[] = { "::", "::1", "0000:0000:0000:0000:0000:0000:0000:0000" };
+const char *invalid[] = { "foobar", "00:::0", NULL };
 
-  /* invalid */
-  "foobar",
-  NULL,
-  "00:::0",
-};
+void
+validate(const char *str)
+{
+  if (isinetaddr6(str)) {
+    printf("%s is a valid IPv6 address.\n", str);
+  } else {
+    printf("%s is an invalid IPv6 address.\n", str);
+  }
+}
 
 int
 main(void)
 {
-    const char *str;
-    const int i = sizeof(strings) / sizeof(strings[0]);
-    for (int j = 0; j < i; j++) {
-        str = strings[j];
-        if (isinetaddr6(str)) {
-            printf("%s is a valid IPv6 address\n", str);
-        } else {
-            printf("%s is an invalid IPv6 address\n", str);
-        }
-    }
-    return EXIT_SUCCESS;
+  printf("// valid\n");
+  for (int i = 0; i < 3; i++) {
+    validate(valid[i]);
+  }
+  printf("// invalid\n");
+  for (int i = 0; i < 3; i++) {
+    validate(invalid[i]);
+  }
+  return EXIT_SUCCESS;
 }
 ```
 
-When the above source code is compiled and run the output is
-expected to be as follows:
+Expected output:
 
 ```
 $ cc -Iinclude src/*.c share/isinetaddr/examples/isinetaddr6.c -o example
 $ ./example
-0x1eef [isinetaddr] % ./example
-:: is a valid IPv6 address
-::1 is a valid IPv6 address
-0000:0000:0000:0000:0000:0000:0000:0000 is a valid IPv6 address
-foobar is an invalid IPv6 address
-(null) is an invalid IPv6 address
-00:::0 is an invalid IPv6 address
+// valid
+:: is a valid IPv6 address.
+::1 is a valid IPv6 address.
+0000:0000:0000:0000:0000:0000:0000:0000 is a valid IPv6 address.
+// invalid
+foobar is an invalid IPv6 address.
+00:::0 is an invalid IPv6 address.
+(null) is an invalid IPv6 address.
 ```
 
 ## Sources
