@@ -35,13 +35,12 @@ isinetaddr4(const char *str)
         digits++;
         if (!in_range(buf)) {
           return 0;
+        } else if (str[l-1] == SEP) {
+          octets++;
         }
       }
     } else {
       return 0;
-    }
-    if (str[l-1] == SEP) {
-      octets++;
     }
   }
   return octets == MAX_OCTETS && digits <= MAX_DIGITLEN;
