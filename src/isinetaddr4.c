@@ -2,7 +2,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <isinetaddr.h>
-#include <errno.h>
 
 static const int  MAX_BUFLEN   = 3;
 static const int  MAX_OCTETS   = 4;
