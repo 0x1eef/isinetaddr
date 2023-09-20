@@ -9,7 +9,6 @@ static const int  MAX_OCTETS   = 4;
 static const int  MAX_DIGITLEN = 12;
 static const int  MAX_STRLEN   = 16;
 static const char SEP = '.';
-
 static int in_range(char buf[MAX_BUFLEN]);
 
 int
@@ -45,11 +44,7 @@ isinetaddr4(const char *str)
       octets++;
     }
   }
-  if (octets == MAX_OCTETS) {
-    return digits <= MAX_DIGITLEN;
-  } else {
-    return 0;
-  }
+  return octets == MAX_OCTETS && digits <= MAX_DIGITLEN;
 }
 
 static int
