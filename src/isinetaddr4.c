@@ -9,7 +9,7 @@ static const int  MAX_OCTETS   = 4;
 static const int  MAX_DIGITLEN = 12;
 static const int  MAX_STRLEN   = 16;
 static const char SEP = '.';
-static int in_range(char buf[MAX_BUFLEN]);
+static int within_range(char buf[MAX_BUFLEN]);
 
 int
 isinetaddr4(const char *str)
@@ -33,7 +33,7 @@ isinetaddr4(const char *str)
       } else {
         buf[buflen++] = str[l];
         digits++;
-        if (!in_range(buf)) {
+        if (!within_range(buf)) {
           return 0;
         } else if (str[l-1] == SEP) {
           octets++;
@@ -47,7 +47,7 @@ isinetaddr4(const char *str)
 }
 
 static int
-in_range(char buf[MAX_BUFLEN])
+within_range(char buf[MAX_BUFLEN])
 {
   int n = atoi(buf);
   return n >= 0 && n <= 255;
