@@ -22,14 +22,11 @@ isinetaddr4(const char *str)
   buf[MAX_BUFLEN] = '\0';
   for (size_t l = 0; l < len; l++) {
     if (str[l] == SEP) {
-      if (buflen == 0) {
-        return 0;
-      } else if (!in_range(buf)) {
+      if (octets == MAX_OCTETS || buflen == 0) {
         return 0;
       } else {
         buflen = 0;
         bzero(buf, MAX_BUFLEN);
-        octets++;
       }
     } else if (isdigit(str[l])) {
       if (buflen == MAX_BUFLEN) {
@@ -37,13 +34,19 @@ isinetaddr4(const char *str)
       } else {
         buf[buflen++] = str[l];
         digits++;
+        if (!in_range(buf)) {
+          return 0;
+        }
       }
     } else {
       return 0;
     }
+    if (str[l-1] == SEP) {
+      octets++;
+    }
   }
   if (octets == MAX_OCTETS) {
-    return digits <= MAX_DIGITLEN && buflen > 0 && in_range(buf);
+    return digits <= MAX_DIGITLEN;
   } else {
     return 0;
   }
