@@ -27,8 +27,12 @@ isinetaddr6(const char *str)
     if (has_consecutive_chars(&str[i], SEP, 3)) {
       return 0;
     } else if (has_consecutive_chars(&str[i], SEP, 2)) {
-      char new_str[MAX_STRLEN];
-      return isinetaddr6(expand(str, len, new_str, i));
+      if (i == 0 && isinetaddr4(&str[3])) {
+        return 1;
+      } else {
+        char new_str[MAX_STRLEN];
+        return isinetaddr6(expand(str, len, new_str, i));
+      }
     } else if (str[i] == SEP) {
       digitlen = 0;
     } else if (isxdigit(str[i])) {
