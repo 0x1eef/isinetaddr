@@ -55,10 +55,9 @@ static int
 has_consecutive_chars(const char *str, char c, int n)
 {
   for (int i = 0; i < n; i++) {
-    if (*str != c) {
+    if (*str++ != c) {
       return 0;
     }
-    str++;
   }
   return 1;
 }
