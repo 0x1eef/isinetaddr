@@ -11,6 +11,7 @@ static const char SEP = ':';
 
 static int has_consecutive_chars(const char *str, char c, int n);
 static char* expand(const char *str, size_t strlen, char *new_str, size_t headlen);
+static size_t get_offset(char *tail);
 
 int
 isinetaddr6(const char *str)
@@ -18,14 +19,11 @@ isinetaddr6(const char *str)
   int hextets = 1, digitlen = 0, hexdigits = 0;
   size_t len = (str == NULL ? 0 : strnlen(str, MAX_STRLEN));
 
-  if (len == 0) {
-    return 0;
-  } else if (strncasecmp(str, "::ffff", 6) == 0) {
-    return isinetaddr4(&str[7]);
-  }
   for (size_t i = 0; i < len; i++) {
     if (has_consecutive_chars(&str[i], SEP, 3)) {
       return 0;
+    } else if (i == 0 && strncasecmp(str, "::ffff", 6) == 0) {
+      return isinetaddr4(&str[7]);
     } else if (has_consecutive_chars(&str[i], SEP, 2)) {
       if (i == 0 && isinetaddr4(&str[3])) {
         return 1;
@@ -54,10 +52,9 @@ static int
 has_consecutive_chars(const char *str, char c, int n)
 {
   for (int i = 0; i < n; i++) {
-    if (*str != c) {
+    if (*str++ != c) {
       return 0;
     }
-    str++;
   }
   return 1;
 }
@@ -66,10 +63,12 @@ static char*
 expand(const char *str, size_t strlen, char *new_str, size_t headlen)
 {
   char *ptr = new_str;
+  char *tail = (char*) &str[headlen + 2];
   size_t taillen = (strlen - headlen) - 2;
   size_t bodylen = MAX_STRLEN - taillen;
   size_t i = headlen + 2;
   size_t j = headlen;
+  size_t offset = get_offset(tail);
 
   while (i++ < strlen) {
     if (has_consecutive_chars(&str[i], SEP, 2)) {
@@ -78,9 +77,23 @@ expand(const char *str, size_t strlen, char *new_str, size_t headlen)
   }
   memcpy(ptr, &str[0], headlen);
   ptr += headlen;
-  while (++j < bodylen) {
+  while (++j < bodylen-offset) {
     *ptr++ = j % 5 == 0 ? ':' : '0';
   }
-  memcpy(ptr, &str[headlen + 2], taillen);
+  memcpy(ptr, tail, taillen);
   return new_str;
+}
+
+static size_t
+get_offset(char *tail)
+{
+  size_t offset = 0;
+  while (*tail++ != SEP) {
+    offset++;
+    if (*tail == '\0' || offset == 4) {
+      offset = 0;
+      break;
+    }
+  }
+  return offset;
 }
