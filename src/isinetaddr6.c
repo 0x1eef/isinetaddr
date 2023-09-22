@@ -19,14 +19,11 @@ isinetaddr6(const char *str)
   int hextets = 1, digitlen = 0, hexdigits = 0;
   size_t len = (str == NULL ? 0 : strnlen(str, MAX_STRLEN));
 
-  if (len == 0) {
-    return 0;
-  } else if (strncasecmp(str, "::ffff", 6) == 0) {
-    return isinetaddr4(&str[7]);
-  }
   for (size_t i = 0; i < len; i++) {
     if (has_consecutive_chars(&str[i], SEP, 3)) {
       return 0;
+    } else if (i == 0 && strncasecmp(str, "::ffff", 6) == 0) {
+      return isinetaddr4(&str[7]);
     } else if (has_consecutive_chars(&str[i], SEP, 2)) {
       if (i == 0 && isinetaddr4(&str[3])) {
         return 1;
