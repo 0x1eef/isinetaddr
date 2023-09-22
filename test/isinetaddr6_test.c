@@ -22,6 +22,7 @@ const char *valid[] = {
   "2001:DB8:0:0:8:800:200C:417A",
 
   /* valid IPv6 (double colon) */
+  "2001:DB8::8:800:200C:417A",
   "fe80::c001:a0ff:fe12:3456",
   "2001:0db8::1",
   "2001:abcd:ef01:2345::",
