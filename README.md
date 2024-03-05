@@ -10,8 +10,8 @@ extend [testcases](test/) that help verify safety and correctness.
 ### IPv4
 
 The following example demonstrates the `isinetaddr4` function with
-both valid and invalid inputs. The `isinetaddr4` function returns 1
-when the input given is a valid IPv4 address, and otherwise returns 0.
+both valid and invalid inputs. The `isinetaddr4` function returns `true`
+when the input given is a valid IPv4 address, and otherwise returns `false`.
 
 ```C
 #include <isinetaddr.h>
@@ -121,8 +121,8 @@ foobar is an invalid IPv4 address.
 ### IPv6
 
 The following example demonstrates the `isinetaddr6` function with
-both valid and invalid inputs. The `isinetaddr6` function returns 1
-when the input given is a valid IPv6 address, and otherwise returns 0.
+both valid and invalid inputs. The `isinetaddr6` function returns `true`
+when the input given is a valid IPv6 address, and otherwise returns `false`.
 
 ```C
 #include <isinetaddr.h>
