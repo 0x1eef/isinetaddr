@@ -1,6 +1,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <isinetaddr.h>
 
 static const int  MAX_BUFLEN   = 3;
@@ -8,9 +9,9 @@ static const int  MAX_OCTETS   = 4;
 static const int  MAX_DIGITLEN = 12;
 static const int  MAX_STRLEN   = 16;
 static const char SEP = '.';
-static int within_range(char buf[MAX_BUFLEN]);
+static bool within_range(char buf[MAX_BUFLEN]);
 
-int
+bool
 isinetaddr4(const char *str)
 {
   char buf[MAX_BUFLEN + 1];
@@ -21,31 +22,31 @@ isinetaddr4(const char *str)
   for (size_t i = 0; i < len; i++) {
     if (str[i] == SEP) {
       if (octets == MAX_OCTETS || buflen == 0) {
-        return 0;
+        return false;
       } else {
         buflen = 0;
         bzero(buf, MAX_BUFLEN);
       }
     } else if (isdigit(str[i])) {
       if (buflen == MAX_BUFLEN) {
-        return 0;
+        return false;
       } else {
         buf[buflen++] = str[i];
         digits++;
         if (!within_range(buf)) {
-          return 0;
+          return false;
         } else if (str[i-1] == SEP) {
           octets++;
         }
       }
     } else {
-      return 0;
+      return false;
     }
   }
   return octets == MAX_OCTETS && digits <= MAX_DIGITLEN;
 }
 
-static int
+static bool
 within_range(char buf[MAX_BUFLEN])
 {
   int n = atoi(buf);

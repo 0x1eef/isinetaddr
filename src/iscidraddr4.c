@@ -2,10 +2,11 @@
 #include <string.h>
 #include <errno.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
-static int in_range(char buf[4], int min, int max);
+static bool in_range(char buf[4], int min, int max);
 
-int
+bool
 iscidraddr4(const char *str)
 {
   size_t offset = 0;
@@ -29,14 +30,14 @@ iscidraddr4(const char *str)
   }
 }
 
-static int
+static bool
 in_range(char buf[4], int min, int max)
 {
   char *err;
   long r;
   errno = 0;
   if (strnlen(buf, 1) == 0) {
-    return 0;
+    return false;
   } else {
     r = strtol(buf, &err, 10);
     return *err == '\0' && errno == 0 && (r >= min && r <= max);

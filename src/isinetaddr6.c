@@ -1,6 +1,7 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <isinetaddr.h>
 
 static const int  MAX_DIGITLEN  = 4;
@@ -9,24 +10,27 @@ static const int  MAX_HEXDIGITS = 32;
 static const int  MAX_STRLEN    = 40;
 static const char SEP = ':';
 
-static int has_consecutive_chars(const char *str, char c, int n);
+static bool has_consecutive_chars(const char *str, char c, int n);
 static char* expand(const char *str, size_t strlen, char *new_str, size_t headlen);
 static size_t get_offset(char *tail);
 
-int
+bool
 isinetaddr6(const char *str)
 {
   int hextets = 1, digitlen = 0, hexdigits = 0;
   size_t len = (str == NULL ? 0 : strnlen(str, MAX_STRLEN));
 
+  if (len == 0) {
+    return false;
+  } else if (strncasecmp(str, "::ffff", 6) == 0) {
+    return isinetaddr4(&str[7]);
+  }
   for (size_t i = 0; i < len; i++) {
     if (has_consecutive_chars(&str[i], SEP, 3)) {
-      return 0;
-    } else if (i == 0 && strncasecmp(str, "::ffff", 6) == 0) {
-      return isinetaddr4(&str[7]);
+      return false;
     } else if (has_consecutive_chars(&str[i], SEP, 2)) {
       if (i == 0 && isinetaddr4(&str[3])) {
-        return 1;
+        return true;
       } else {
         char new_str[MAX_STRLEN];
         return isinetaddr6(expand(str, len, new_str, i));
@@ -37,18 +41,18 @@ isinetaddr6(const char *str)
       digitlen++;
       hexdigits++;
       if (digitlen > MAX_DIGITLEN) {
-        return 0;
+        return false;
       } else if (str[i-1] == SEP) {
         hextets++;
       }
     } else {
-      return 0;
+      return false;
     }
   }
   return hextets == MAX_HEXTETS && hexdigits <= MAX_HEXDIGITS;
 }
 
-static int
+static bool
 has_consecutive_chars(const char *str, char c, int n)
 {
   for (int i = 0; i < n; i++) {
