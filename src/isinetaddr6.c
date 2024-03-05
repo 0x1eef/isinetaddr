@@ -41,7 +41,7 @@ isinetaddr6(const char *str)
       digitlen++;
       hexdigits++;
       if (digitlen > MAX_DIGITLEN) {
-        return 0;
+        return false;
       } else if (str[i-1] == SEP) {
         hextets++;
       }
