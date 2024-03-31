@@ -35,7 +35,7 @@ isinetaddr4(const char *str)
         digits++;
         if (!within_range(buf)) {
           return false;
-        } else if (str[i-1] == SEP) {
+        } else if (i > 0 && str[i-1] == SEP) {
           octets++;
         }
       }
