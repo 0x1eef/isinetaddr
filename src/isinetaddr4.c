@@ -18,20 +18,19 @@ isinetaddr4(const char *str)
   int digits = 0, octets = 1, buflen = 0;
   size_t len = (str == NULL ? 0 : strnlen(str, MAX_STRLEN));
 
-  buf[MAX_BUFLEN] = '\0';
   for (size_t i = 0; i < len; i++) {
     if (str[i] == SEP) {
       if (octets == MAX_OCTETS || buflen == 0) {
         return false;
       } else {
         buflen = 0;
-        bzero(buf, MAX_BUFLEN);
       }
     } else if (isdigit(str[i])) {
       if (buflen == MAX_BUFLEN) {
         return false;
       } else {
         buf[buflen++] = str[i];
+        buf[buflen] = '\0';
         digits++;
         if (!within_range(buf)) {
           return false;
