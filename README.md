@@ -16,23 +16,23 @@ The `isinetaddr4` function returns `true` when given a valid IPv4 address:
 #include <stdlib.h>
 
 const char *ipv4[] = {
-  /* valid */
-  "127.0.0.1", "1.1.1.1", "0.0.0.0",
-  /* invalid */
-  "0.0.0.0.0", "foobar" 
+    /* valid */
+    "127.0.0.1", "1.1.1.1", "0.0.0.0",
+    /* invalid */
+    "0.0.0.0.0", "foobar"
 };
 
 int
 main(void)
 {
-  for (int i = 0; i < 5; i++) {
-    if (isinetaddr4(ipv4[i])) {
-      printf("%s is a valid IPv4 address.\n", ipv4[i]);
-    } else {
-      printf("%s is an invalid IPv4 address.\n", ipv4[i]);
+    for (int i = 0; i < 5; i++) {
+        if (isinetaddr4(ipv4[i])) {
+            printf("%s is a valid IPv4 address.\n", ipv4[i]);
+        } else {
+            printf("%s is an invalid IPv4 address.\n", ipv4[i]);
+        }
     }
-  }
-  return (EXIT_SUCCESS);
+    return (EXIT_SUCCESS);
 }
 ```
 
@@ -48,23 +48,23 @@ The following example builds on the previous example:
 #include <stdlib.h>
 
 const char *ipv4[] = {
-  /* valid */
-  "127.0.0.1", "192.168.2.1/32", "192.168.2.1/0",
-  /* invalid */
-  "192.168.2.1/33", "foobar" 
+    /* valid */
+    "127.0.0.1", "192.168.2.1/32", "192.168.2.1/0",
+    /* invalid */
+    "192.168.2.1/33", "foobar"
 };
 
 int
 main(void)
 {
-  for (int i = 0; i < 5; i++) {
-    if (iscidraddr4(ipv4[i])) {
-      printf("%s is a valid IPv4 address.\n", ipv4[i]);
-    } else {
-      printf("%s is an invalid IPv4 address.\n", ipv4[i]);
+    for (int i = 0; i < 5; i++) {
+        if (iscidraddr4(ipv4[i])) {
+            printf("%s is a valid IPv4 address.\n", ipv4[i]);
+        } else {
+            printf("%s is an invalid IPv4 address.\n", ipv4[i]);
+        }
     }
-  }
-  return (EXIT_SUCCESS);
+    return (EXIT_SUCCESS);
 }
 ```
 
@@ -78,24 +78,24 @@ The `isinetaddr6` function returns `true` when given a valid IPv6 address:
 #include <stdlib.h>
 
 const char *ipv6[] = {
-  /* valid */
-  "::", "::1", "0000:0000:0000:0000:0000:0000:0000:0000",
-  /* invalid */
-  "foobar", "00:::0" 
+    /* valid */
+    "::", "::1", "0000:0000:0000:0000:0000:0000:0000:0000",
+    /* invalid */
+    "foobar", "00:::0"
 };
 
 
 int
 main(void)
 {
-  for (int i = 0; i < 5; i++) {
-    if (isinetaddr6(ipv6[i])) {
-      printf("%s is a valid IPv4 address.\n", ipv6[i]);
-    } else {
-      printf("%s is an invalid IPv4 address.\n", ipv6[i]);
+    for (int i = 0; i < 5; i++) {
+        if (isinetaddr6(ipv6[i])) {
+            printf("%s is a valid IPv4 address.\n", ipv6[i]);
+        } else {
+            printf("%s is an invalid IPv4 address.\n", ipv6[i]);
+        }
     }
-  }
-  return (EXIT_SUCCESS);
+    return (EXIT_SUCCESS);
 }
 ```
 
