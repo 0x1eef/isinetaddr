@@ -103,9 +103,10 @@ main(void)
 
 * [GitHub](https://github.com/0x1eef/isinetaddr#readme)
 * [GitLab](https://gitlab.com/0x1eef/isinetaddr#about)
+* [brew.bsd.cafe/@0x1eef](https://brew.bsd.cafe/0x1eef/isinetaddr#about)
 
 ## <a id="license"> License </a>
 
-[BSD Zero Clause](https://choosealicense.com/licenses/0bsd/).
+[BSD Zero Clause](https://choosealicense.com/licenses/0bsd/)
 <br>
-See [LICENSE](./LICENSE).
+See [LICENSE](./LICENSE)
