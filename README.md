@@ -1,8 +1,7 @@
 ## About
 
 isinetaddr is a clang library that provides a set of functions for
-IP address validation. The library is guided by [testcases](test/) 
-that help verify safety and correctness.
+IP address validation.
 
 ## Examples
 
