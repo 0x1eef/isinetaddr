@@ -100,8 +100,8 @@ main(void)
 
 ## Sources
 
-* [GitHub](https://github.com/0x1eef/isinetaddr#readme)
-* [GitLab](https://gitlab.com/0x1eef/isinetaddr#about)
+* [github.com/@0x1eef](https://github.com/0x1eef/isinetaddr#readme)
+* [gitlab.com/@0x1eef](https://gitlab.com/0x1eef/isinetaddr#about)
 * [brew.bsd.cafe/@0x1eef](https://brew.bsd.cafe/0x1eef/isinetaddr#about)
 
 ## <a id="license"> License </a>
